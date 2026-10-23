@@ -1,5 +1,5 @@
 /**
- * Bloques personalizados para la lógica del juego de la oruga
+ * Bloques personalizados para el juego de la oruga
  */
 //% color="#008272" weight=100 icon="\uf1b0"
 namespace caterpillarGame {
@@ -7,10 +7,10 @@ namespace caterpillarGame {
     let NEXT_SECTION_KEY = "__child_node";
 
     /**
-     * Inicializa y añade una sección al cuerpo de la oruga
+     * Añade una nueva sección al cuerpo de la oruga
      */
     //% block="añadir sección a la oruga cabeza $head"
-    export function addToBody(head: Sprite) {
+    export function addToBody(head: Sprite): void {
         const newSection = sprites.create(img`
             . . f f f f . .
             . f 1 1 1 1 f .
@@ -23,24 +23,30 @@ namespace caterpillarGame {
         `, SpriteKind.Tail);
         
         newSection.data = {};
-        
-        // Asignar colores aleatorios al cuerpo
-        let newColor = randint(0x1, 0xE);
+
+        let newColor: number;
+        do {
+            newColor = randint(0x1, 0xE);
+        } while (newColor === 0x6);
         newSection.image.replace(0x1, newColor);
+
+        do {
+            newColor = randint(0x1, 0xE);
+        } while (newColor === 0x6);
+        newSection.image.replace(0xF, newColor);
 
         newSection.x = head.x;
         newSection.y = head.y;
 
-        // Manejo de nodos enlazados
         newSection.data[NEXT_SECTION_KEY] = head.data[NEXT_SECTION_KEY];
         head.data[NEXT_SECTION_KEY] = newSection;
     }
 
     /**
-     * Mueve el cuerpo de la oruga siguiendo la cabeza
+     * Mueve el cuerpo de la oruga siguiendo la pieza anterior
      */
     //% block="mover cuerpo de la pieza $piece"
-    export function moveBody(piece: Sprite) {
+    export function moveBody(piece: Sprite): void {
         const next = piece.data[NEXT_SECTION_KEY];
         if (next) {
             moveBody(next);
