@@ -1,0 +1,14 @@
+{
+    "name": "caterpillar-logic",
+    "version": "0.0.1",
+    "description": "Bloques personalizados para el juego de la oruga",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md"
+    ],
+    "preferredEditor": "tsprj"
+}
